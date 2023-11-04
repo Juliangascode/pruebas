@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Probabilidad</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<body>
+    <h1>Calculadora de Probabilidad</h1>
+
+    <div class="container container-bernoulli">
+        <h2>Distribución de Bernoulli</h2>
+        <label for="p-bernoulli">Probabilidad de éxito (p):</label>
+        <input type="number" id="p-bernoulli" step="0.01">
+        <br>
+        <label for="x-bernoulli">Número de éxitos (x):</label>
+        <input type="number" id="x-bernoulli">
+        <br>
+        <button onclick="calcularBernoulli()">Calcular</button>
+        <p>Resultado en decimal: <span id="resultado-bernoulli-decimal" class="result-decimal"></span></p>
+        <p>Resultado en porcentaje: <span id="resultado-bernoulli-percent" class="result-percent"></span></p>
+    </div>
+
+    <div class="container container-bayes">
+        <h2>Teorema de Bayes</h2>
+        <label for="prior">Probabilidad a priori (P(A)):</label>
+        <input type="number" id="prior" step="0.01">
+        <br>
+        <label for="likelihood">Probabilidad condicional (P(B|A)):</label>
+        <input type="number" id="likelihood" step="0.01">
+        <br>
+        <label for="evidence">Probabilidad de la evidencia (P(B)):</label>
+        <input type="number" id="evidence" step="0.01">
+        <br>
+        <button onclick="calcularBayes()">Calcular</button>
+        <p>Resultado en decimal: <span id="resultado-bayes-decimal" class="result-decimal"></span></p>
+        <p>Resultado en porcentaje: <span id="resultado-bayes-percent" class="result-percent"></span></p>
+    </div>
+
+    <div class="container container-normal">
+        <h2>Distribución Normal</h2>
+        <label for="media">Media (μ):</label>
+        <input type="number" id="media" step="0.01">
+        <br>
+        <label for="desviacion">Desviación estándar (σ):</label>
+        <input type="number" id="desviacion" step="0.01">
+        <br>
+        <label for="valor-x">Valor de x:</label>
+        <input type="number" id="valor-x">
+        <br>
+        <button onclick="calcularNormal()">Calcular</button>
+        <p>Resultado en decimal: <span id="resultado-normal-decimal" class="result-decimal"></span></p>
+        <p>Resultado en porcentaje: <span id="resultado-normal-percent" class="result-percent"></span></p>
+    </div>
+
+    <div class="container container-poisson">
+        <h2>Distribución de Poisson</h2>
+        <label for="lambda-poisson">Tasa (λ):</label>
+        <input type="number" id="lambda-poisson" step="0.01">
+        <br>
+        <label for="k-poisson">Número de ocurrencias (k):</label>
+        <input type="number" id="k-poisson">
+        <br>
+        <button onclick="calcularPoisson()">Calcular</button>
+        <p>Resultado en decimal: <span id="resultado-poisson-decimal" class="result-decimal"></span></p>
+        <p>Resultado en porcentaje: <span id="resultado-poisson-percent" class="result-percent"></span></p>
+    </div>
+
+    <script>
+        function calcularBernoulli() {
+            const p = parseFloat(document.getElementById("p-bernoulli").value);
+            const x = parseInt(document.getElementById("x-bernoulli").value);
+            const resultado = (p ** x) * ((1 - p) ** (1 - x));
+            document.getElementById("resultado-bernoulli-decimal").textContent = resultado.toFixed(4);
+            document.getElementById("resultado-bernoulli-percent").textContent = (resultado * 100).toFixed(2) + '%';
+        }
+
+        function calcularBayes() {
+            const prior = parseFloat(document.getElementById("prior").value);
+            const likelihood = parseFloat(document.getElementById("likelihood").value);
+            const evidence = parseFloat(document.getElementById("evidence").value);
+            const resultado = (prior * likelihood) / evidence;
+            document.getElementById("resultado-bayes-decimal").textContent = resultado.toFixed(4);
+            document.getElementById("resultado-bayes-percent").textContent = (resultado * 100).toFixed(2) + '%';
+        }
+
+        function calcularNormal() {
+            const media = parseFloat(document.getElementById("media").value);
+            const desviacion = parseFloat(document.getElementById("desviacion").value);
+            const valorX = parseFloat(document.getElementById("valor-x").value);
+            const resultado = (1 / (desviacion * Math.sqrt(2 * Math.PI))) * Math.exp(-((valorX - media) ** 2) / (2 * desviacion ** 2));
+            document.getElementById("resultado-normal-decimal").textContent = resultado.toFixed(4);
+            document.getElementById("resultado-normal-percent").textContent = (resultado * 100).toFixed(2) + '%';
+        }
+
+        function calcularPoisson() {
+            const lambda = parseFloat(document.getElementById("lambda-poisson").value);
+            const k = parseInt(document.getElementById("k-poisson").value);
+            const resultado = (Math.exp(-lambda) * lambda ** k) / factorial(k);
+            document.getElementById("resultado-poisson-decimal").textContent = resultado.toFixed(4);
+            document.getElementById("resultado-poisson-percent").textContent = (resultado * 100).toFixed(2) + '%';
+        }
+
+        function factorial(n) {
+            if (n === 0) {
+                return 1;
+            } else {
+                return n * factorial(n - 1);
+            }
+        }
+    </script>
+</body>
+</html>
